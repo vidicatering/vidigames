@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Pernikahan Impian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div
+      id="app"
+      class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md text-center"
+    >
+      <h1 class="text-2xl font-bold text-gray-800 mb-4">Pernikahan Impianmu</h1>
+      <div id="game">
+        <p id="question" class="text-lg font-medium text-gray-700 mb-6"></p>
+        <div id="answers" class="space-y-4"></div>
+      </div>
+      <button
+        id="next-btn"
+        class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 hidden"
+      >
+        Lanjut
+      </button>
+      <div id="result" class="hidden">
+        <h2 class="text-xl font-bold text-gray-800 mt-6">Hasil Kamu:</h2>
+        <p id="result-text" class="text-gray-600 mt-4"></p>
+      </div>
+    </div>
+    <script>
+      // Pertanyaan dan Jawaban
+      const questions = [
+        { question: "Dekorasi:", answers: { A: "Rustic", B: "Modern Glam" } },
+        {
+          question: "Lokasi:",
+          answers: { A: "Outdoor Garden", B: "Indoor Ballroom" },
+        },
+        {
+          question: "Warna Tema:",
+          answers: { A: "Pastel Soft", B: "Bold Vibrant" },
+        },
+        {
+          question: "Busana:",
+          answers: { A: "Traditional", B: "Gown Modern" },
+        },
+        {
+          question: "Suasana Acara:",
+          answers: { A: "Casual Fun", B: "Whimsical dan Dreamy" },
+        },
+        {
+          question: "Entertainment:",
+          answers: { A: "Live Band", B: "Tradisional Gamelan" },
+        },
+        {
+          question: "Menu Makanan:",
+          answers: { A: "Traditional Buffet", B: "Fine Dining" },
+        },
+      ];
+
+      // Variabel Game
+      let currentQuestion = 0;
+      let answers = [];
+
+      const questionEl = document.getElementById("question");
+      const answersEl = document.getElementById("answers");
+      const nextBtn = document.getElementById("next-btn");
+      const resultEl = document.getElementById("result");
+      const resultText = document.getElementById("result-text");
+
+      // Fungsi Menampilkan Pertanyaan
+      function showQuestion() {
+        const current = questions[currentQuestion];
+        questionEl.textContent = current.question;
+        answersEl.innerHTML = "";
+
+        for (let key in current.answers) {
+          const btn = document.createElement("button");
+          btn.textContent = current.answers[key];
+          btn.className =
+            "w-full bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg text-gray-700";
+          btn.onclick = () => {
+            answers.push(current.answers[key]);
+            if (currentQuestion < questions.length - 1) {
+              currentQuestion++;
+              showQuestion();
+            } else {
+              showResult();
+            }
+          };
+          answersEl.appendChild(btn);
+        }
+      }
+
+      // Fungsi Menampilkan Hasil
+      function showResult() {
+        document.getElementById("game").classList.add("hidden");
+        resultEl.classList.remove("hidden");
+
+        const [dekorasi, lokasi, warna, busana, suasana, entertainment, menu] =
+          answers;
+        const resultTextContent = `
+                Kamu adalah tipe pengantin yang menyukai dekorasi dengan gaya <strong>${dekorasi}</strong> 
+                dengan busana <strong>${busana}</strong> yang anggun. Dengan pilihan warna <strong>${warna}</strong>, 
+                dan suasana <strong>${suasana}</strong>, pernikahanmu akan terasa penuh kedamaian dan keindahan. 
+                Kamu ingin berbagi momen istimewa dengan tamu di <strong>${lokasi}</strong>, 
+                diiringi dengan <strong>${entertainment}</strong> yang membawa nuansa menjadi lebih nyata. 
+                Hidangan <strong>${menu}</strong> akan memastikan setiap orang merasa nyaman dan puas. 
+                Hari pernikahanmu akan menjadi momen istimewa yang tidak terlupakan!
+            `;
+        resultText.innerHTML = resultTextContent;
+      }
+
+      // Memulai Game
+      showQuestion();
+    </script>
+  </body>
+</html>
