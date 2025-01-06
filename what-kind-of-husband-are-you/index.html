@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>What Kind of Bride Are You?</title>
+    <title>What Kind of Husband Are You?</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
@@ -16,7 +16,7 @@
         ><i class="fas fa-arrow-left text-5xl text-gray-800"></i
       ></a>
       <h1 class="text-5xl font-bold text-yellow-600 ml-5">
-        What Kind of Bride Are You?
+        What Kind of Husband Are You?
       </h1>
     </div>
     <div class="max-w-5xl mx-auto p-4">
@@ -27,10 +27,6 @@
         ></div>
         <div id="result-section" class="hidden text-center mt-8">
           <h2 class="text-2xl font-bold">Hasil</h2>
-          <p
-            id="result-title"
-            class="mt-4 text-3xl font-semibold text-yellow-600"
-          ></p>
           <p id="result-text" class="mt-4 text-2xl"></p>
           <button
             class="mt-6 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:shadow-lg"
@@ -46,44 +42,44 @@
       const answers = [];
       const questions = [
         {
-          category: "Bagaimana kamu memulai pagi di rumah?",
+          category: "Saat istri memasak, apa yang kamu lakukan?",
           options: [
-            "Membuat sarapan untuk pasangan",
-            "Menikmati kopi sambil scrolling media sosial",
+            "Membantu memotong bahan atau membersihkan dapur",
+            "Duduk santai menonton TV sambil menunggu makanan siap",
           ],
-          images: ["/src/image/whimsi.webp", "/src/image/kopi.webp"],
-        },
-        {
-          category: "Apa yang kamu pilih untuk makan malam spesial?",
-          options: ["Masakan rumahan", "Makan di restoran favorit"],
           images: [
-            "/src/image/masakan-rumahan.webp",
-            "/src/image/restoran-favorit.webp",
+            "/src/image/helping-cook.webp",
+            "/src/image/watching-tv.webp",
           ],
         },
         {
-          category: "Ketika ada masalah di rumah, kamu lebih suka:",
-          options: [
-            "Diskusi langsung dan mencari solusi bersama",
-            "Membiarkan waktu yang menyelesaikannya",
-          ],
-          images: ["/src/image/diskusi.webp", "/src/image/menunggu.webp"],
+          category: "Liburan keluarga yang ideal menurutmu?",
+          options: ["Piknik sederhana di taman", "Menginap di resort mewah"],
+          images: ["/src/image/picnic.webp", "/src/image/resort.webp"],
         },
         {
-          category: "Aktivitas akhir pekan favoritmu:",
+          category: "Ketika istri sedang sibuk, kamu akan:",
           options: [
-            "Menghabiskan waktu di rumah bersama keluarga",
-            "Jalan-jalan atau traveling",
+            "Membantu menyelesaikan tugas-tugasnya",
+            "Memberikan ruang agar dia bisa menyelesaikannya sendiri",
           ],
-          images: ["/src/image/keluarga.webp", "/src/image/traveling.webp"],
+          images: ["/src/image/helping.webp", "/src/image/giving-space.webp"],
         },
         {
-          category: "Ketika merencanakan resepsi pernikahan, kamu:",
+          category: "Hadiah ulang tahun untuk istri yang menurutmu sempurna:",
           options: [
-            "Fokus pada detail dan memilih sendiri",
-            "Percayakan sepenuhnya pada vendor",
+            "Masakan spesial buatan sendiri",
+            "Perhiasan atau hadiah mewah lainnya",
           ],
-          images: ["/src/image/detail.webp", "/src/image/vendor.webp"],
+          images: ["/src/image/homemade-meal.webp", "/src/image/jewelry.webp"],
+        },
+        {
+          category: "Saat ada masalah di rumah tangga, kamu lebih suka:",
+          options: [
+            "Bicara langsung dan cari solusi bersama",
+            "Membiarkan masalah reda dengan sendirinya",
+          ],
+          images: ["/src/image/discussion.webp", "/src/image/time-heals.webp"],
         },
       ];
 
@@ -118,30 +114,29 @@
 
       function showResult() {
         const resultPatterns = {
-          "The Homemaker Bride": [
+          "The Supportive Husband": [
             [0, 0, 0, 0, 0],
-            [0, 0, 1, 1, 0],
-            [0, 0, 0, 0, 1],
-          ],
-          "The Adventurous Bride": [
-            [1, 0, 1, 0, 1],
             [0, 0, 1, 0, 1],
-            [1, 0, 0, 1, 1],
-            [1, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1],
           ],
-          "The Easygoing Bride": [
-            [1, 1, 1, 1, 1],
-            [0, 1, 1, 0, 1],
+          "The Fun Husband": [
             [1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 0],
+            [1, 1, 0, 1, 1],
           ],
-          "The Glamorous Bride": [
+          "The Luxury Lover": [
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1],
+          ],
+          "The Calm Husband": [
+            [1, 1, 0, 0, 0],
             [0, 1, 0, 1, 0],
-            [1, 1, 0, 1, 0],
-            [0, 1, 1, 0, 1],
+            [0, 1, 1, 0, 0],
           ],
         };
 
-        let result = "The Easygoing Bride";
+        let result = "The Calm Husband";
         for (const [key, patterns] of Object.entries(resultPatterns)) {
           if (
             patterns.some((pattern) =>
@@ -154,21 +149,21 @@
         }
 
         const descriptions = {
-          "The Homemaker Bride":
-            "Kamu adalah tipe yang mencintai kehangatan rumah dan keluarga. Catering kami dengan menu tradisional akan sangat cocok untuk pernikahanmu.",
-          "The Adventurous Bride":
-            "Kamu suka tantangan dan mencoba hal baru. Kami merekomendasikan menu fusion atau live cooking untuk menyesuaikan gaya unikmu.",
-          "The Easygoing Bride":
-            "Kamu suka segalanya berjalan lancar tanpa banyak ribet. Paket catering kami yang all-in-one adalah pilihan sempurna untukmu.",
-          "The Glamorous Bride":
-            "Kamu menyukai kemewahan dan elegansi. Menu premium dan dekorasi megah akan melengkapi momen spesialmu.",
+          "The Supportive Husband":
+            "Kamu adalah tipe suami yang selalu mendukung istri dalam segala hal. Catering kami dengan layanan fleksibel cocok untuk memenuhi kebutuhan resepsi kalian.",
+          "The Fun Husband":
+            "Kamu adalah tipe yang suka menjaga suasana ceria dan penuh kejutan. Menu kami yang beragam dan unik akan cocok dengan gaya pernikahanmu.",
+          "The Luxury Lover":
+            "Kamu menyukai hal-hal premium dan mewah. Pilihan menu eksklusif dan dekorasi elegan adalah pilihan terbaik untuk pernikahanmu.",
+          "The Calm Husband":
+            "Kamu adalah tipe yang tenang dan sederhana. Menu tradisional dengan sentuhan modern akan mencerminkan gaya kalian.",
         };
 
         document.getElementById("question-section").classList.add("hidden");
         document.getElementById("result-section").classList.remove("hidden");
-        document.getElementById("result-title").textContent = result;
-        document.getElementById("result-text").textContent =
-          descriptions[result];
+        document.getElementById(
+          "result-text"
+        ).textContent = `${result}: ${descriptions[result]}`;
       }
 
       function restartGame() {

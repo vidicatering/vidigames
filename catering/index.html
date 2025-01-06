@@ -16,7 +16,7 @@
         ><i class="fas fa-arrow-left text-5xl text-gray-800"></i
       ></a>
       <h1 class="text-5xl font-bold text-yellow-600 ml-5">
-        Your Wedding Style Unveiled
+        Your Wedding Culinary Style
       </h1>
     </div>
     <div class="max-w-5xl mx-auto p-4">
@@ -42,45 +42,61 @@
       const answers = {};
       const questions = [
         {
-          category: "Dekorasi",
-          options: ["Rustic", "Modern Glamour"],
-          images: ["/src/image/rustic.webp", "/src/image/modern-glamour.webp"],
-        },
-        {
-          category: "Lokasi",
-          options: ["Outdoor Garden", "Indoor Ballroom"],
+          category: "Jenis Makanan Utama",
+          options: ["Menu Tradisional", "Menu Internasional"],
           images: [
-            "/src/image/outdoor-garden.webp",
-            "/src/image/Indoor-Ballroom.webp",
+            "/src/image/menu-tradisional.webp",
+            "/src/image/menu-internasional.webp",
           ],
         },
         {
-          category: "Warna Tema",
-          options: ["Pastel Soft", "Bold Vibrant"],
-          images: ["/src/image/pastel-soft.webp", "/src/image/bold.webp"],
-        },
-        {
-          category: "Busana",
-          options: ["Traditional", "Gown Modern"],
+          category: "Pilihan Minuman",
+          options: ["Es Kuwut", "Es Sarang Burung"],
           images: [
-            "/src/image/tradisional.webp",
-            "/src/image/modern-dress.webp",
+            "/src/image/es-kuwut.webp",
+            "/src/image/es-sarang-burung.webp",
           ],
         },
         {
-          category: "Suasana Acara",
-          options: ["Casual Fun", "Whimsical dan Dreamy"],
-          images: ["/src/image/casual.webp", "/src/image/whimsi.webp"],
+          category: "Jenis Dessert",
+          options: ["Kue Tradisional", "Dessert Modern"],
+          images: [
+            "/src/image/kue-tradisional.webp",
+            "/src/image/dessert-modern.webp",
+          ],
         },
         {
-          category: "Entertainment",
-          options: ["Live Band", "Tradisional Gamelan"],
-          images: ["/src/image/live-band.webp", "/src/image/gamelan.webp"],
+          category: "Jumlah Hidangan",
+          options: ["All You Can Eat Buffet", "Set Menu Eksklusif"],
+          images: ["/src/image/buffet.webp", "/src/image/set-menu.webp"],
         },
         {
-          category: "Menu Makanan",
-          options: ["Traditional Buffet", "Fine Dining"],
-          images: ["/src/image/buffet.webp", "/src/image/fine-dining.webp"],
+          category: "Penyajian Makanan",
+          options: ["Prasmanan", "Gubugan"],
+          images: ["/src/image/prasmanan.webp", "/src/image/gubugan.webp"],
+        },
+        {
+          category: "Hidangan Pembuka / Appetizer",
+          options: ["Salad Segar", "Sup Krim"],
+          images: ["/src/image/salad.webp", "/src/image/sup-krim.webp"],
+        },
+        {
+          category: "Hidangan Utama / Main Course",
+          options: ["Nasi Tumpeng Mini", "Beef Blackpepper"],
+          images: [
+            "/src/image/nasi-tumpeng.webp",
+            "/src/image/beef-blackpepper.webp",
+          ],
+        },
+        {
+          category: "Dessert",
+          options: ["Ice Cream & Pudding", "Buah Iris"],
+          images: ["/src/image/ice-cream.webp", "/src/image/buah-iris.webp"],
+        },
+        {
+          category: "Minuman",
+          options: ["Es Dawet", "Es Doger"],
+          images: ["/src/image/es-dawet.webp", "/src/image/es-doger.webp"],
         },
       ];
 
@@ -116,7 +132,7 @@
       }
 
       function showResult() {
-        const resultText = `Kamu adalah tipe pengantin yang menyukai dekorasi dengan gaya <strong>${answers["Dekorasi"]}</strong> dengan busana <strong>${answers["Busana"]}</strong>. Dengan pilihan warna <strong>${answers["Warna Tema"]}</strong>, dan suasana <strong>${answers["Suasana Acara"]}</strong>, pernikahanmu akan terasa penuh kedamaian dan keindahan. Kamu ingin berbagi momen istimewa dengan tamu di <strong>${answers["Lokasi"]}</strong>, diiringi dengan <strong>${answers["Entertainment"]}</strong> yang membawa nuansa menjadi lebih nyata. Hidangan tradisional yang disajikan dalam <strong>${answers["Menu Makanan"]}</strong> akan memastikan setiap orang merasa nyaman dan puas.`;
+        const resultText = `Kamu adalah tipe pengantin yang menyukai pernikahan penuh kesenangan, namun tetap menginginkan elemen kemewahan. Pilihan <strong>${answers["Jenis Makanan Utama"]}</strong> yang kaya cita rasa, ditambah dengan konsep <strong>${answers["Penyajian Makanan"]}</strong> yang santai dan dengan jumlah hidangan <strong>${answers["Jumlah Hidangan"]}</strong>, menciptakan suasana yang ramah dan penuh kebersamaan. Dengan hidangan seperti <strong>${answers["Hidangan Pembuka / Appetizer"]}</strong>, <strong>${answers["Hidangan Utama / Main Course"]}</strong>, <strong>${answers["Minuman"]}</strong>, dan <strong>${answers["Jenis Dessert"]}</strong>, pernikahanmu akan memberikan pengalaman kuliner yang kaya makna bagi semua tamu. Semua ini, ditambah <strong>${answers["Pilihan Minuman"]}</strong> dan <strong>${answers["Dessert"]}</strong> akan membawa nuansa budaya yang indah dan penuh keharmonisan dalam perayaan pernikahanmu.`;
         document.getElementById("question-section").classList.add("hidden");
         document.getElementById("result-section").classList.remove("hidden");
         document.getElementById("result-text").innerHTML = resultText;
