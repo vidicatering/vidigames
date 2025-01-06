@@ -3,115 +3,121 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Pernikahan Impian</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Wedding Style Game</title>
   </head>
-  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div
-      id="app"
-      class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md text-center"
-    >
-      <h1 class="text-2xl font-bold text-gray-800 mb-4">Pernikahan Impianmu</h1>
-      <div id="game">
-        <p id="question" class="text-lg font-medium text-gray-700 mb-6"></p>
-        <div id="answers" class="space-y-4"></div>
-      </div>
-      <button
-        id="next-btn"
-        class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 hidden"
-      >
-        Lanjut
-      </button>
-      <div id="result" class="hidden">
-        <h2 class="text-xl font-bold text-gray-800 mt-6">Hasil Kamu:</h2>
-        <p id="result-text" class="text-gray-600 mt-4"></p>
+  <body class="bg-gray-50 text-gray-900 font-sans">
+    <div class="max-w-4xl mx-auto p-4">
+      <h1 class="text-2xl font-bold text-center text-yellow-600">
+        Your Wedding Style Unveiled
+      </h1>
+      <div id="game-container" class="mt-6">
+        <div id="question-section" class="text-center"></div>
+        <div id="result-section" class="hidden text-center mt-8">
+          <h2 class="text-2xl font-bold">Kesimpulan</h2>
+          <p id="result-text" class="mt-4 text-lg"></p>
+          <button
+            class="mt-6 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+            onclick="restartGame()"
+          >
+            Main Lagi
+          </button>
+        </div>
       </div>
     </div>
+
     <script>
-      // Pertanyaan dan Jawaban
+      const answers = {};
       const questions = [
-        { question: "Dekorasi:", answers: { A: "Rustic", B: "Modern Glam" } },
         {
-          question: "Lokasi:",
-          answers: { A: "Outdoor Garden", B: "Indoor Ballroom" },
+          category: "Dekorasi",
+          options: ["Rustic", "Modern Glamour"],
+          images: ["/src/image/rustic.webp", "/src/image/modern-glamour.webp"],
         },
         {
-          question: "Warna Tema:",
-          answers: { A: "Pastel Soft", B: "Bold Vibrant" },
+          category: "Lokasi",
+          options: ["Outdoor Garden", "Indoor Ballroom"],
+          images: [
+            "/src/image/outdoor-garden.webp",
+            "/src/image/Indoor-Ballroom.webp",
+          ],
         },
         {
-          question: "Busana:",
-          answers: { A: "Traditional", B: "Gown Modern" },
+          category: "Warna Tema",
+          options: ["Pastel Soft", "Bold Vibrant"],
+          images: ["/src/image/pastel-soft.webp", "/src/image/bold.webp"],
         },
         {
-          question: "Suasana Acara:",
-          answers: { A: "Casual Fun", B: "Whimsical dan Dreamy" },
+          category: "Busana",
+          options: ["Traditional", "Gown Modern"],
+          images: [
+            "/src/image/tradisional.webp",
+            "/src/image/modern-dress.webp",
+          ],
         },
         {
-          question: "Entertainment:",
-          answers: { A: "Live Band", B: "Tradisional Gamelan" },
+          category: "Suasana Acara",
+          options: ["Casual Fun", "Whimsical dan Dreamy"],
+          images: ["/src/image/casual.webp", "/src/image/whimsi.webp"],
         },
         {
-          question: "Menu Makanan:",
-          answers: { A: "Traditional Buffet", B: "Fine Dining" },
+          category: "Entertainment",
+          options: ["Live Band", "Tradisional Gamelan"],
+          images: ["/src/image/live-band.webp", "/src/image/gamelan.webp"],
+        },
+        {
+          category: "Menu Makanan",
+          options: ["Traditional Buffet", "Fine Dining"],
+          images: ["/src/image/buffet.webp", "/src/image/fine-dining.webp"],
         },
       ];
 
-      // Variabel Game
-      let currentQuestion = 0;
-      let answers = [];
-
-      const questionEl = document.getElementById("question");
-      const answersEl = document.getElementById("answers");
-      const nextBtn = document.getElementById("next-btn");
-      const resultEl = document.getElementById("result");
-      const resultText = document.getElementById("result-text");
-
-      // Fungsi Menampilkan Pertanyaan
-      function showQuestion() {
-        const current = questions[currentQuestion];
-        questionEl.textContent = current.question;
-        answersEl.innerHTML = "";
-
-        for (let key in current.answers) {
-          const btn = document.createElement("button");
-          btn.textContent = current.answers[key];
-          btn.className =
-            "w-full bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg text-gray-700";
-          btn.onclick = () => {
-            answers.push(current.answers[key]);
-            if (currentQuestion < questions.length - 1) {
-              currentQuestion++;
-              showQuestion();
-            } else {
-              showResult();
-            }
-          };
-          answersEl.appendChild(btn);
+      function selectAnswer(category, answer) {
+        answers[category] = answer;
+        const currentIndex = questions.findIndex(
+          (q) => q.category === category
+        );
+        if (currentIndex < questions.length - 1) {
+          loadQuestion(questions[currentIndex + 1]);
+        } else {
+          showResult();
         }
       }
 
-      // Fungsi Menampilkan Hasil
-      function showResult() {
-        document.getElementById("game").classList.add("hidden");
-        resultEl.classList.remove("hidden");
-
-        const [dekorasi, lokasi, warna, busana, suasana, entertainment, menu] =
-          answers;
-        const resultTextContent = `
-                Kamu adalah tipe pengantin yang menyukai dekorasi dengan gaya <strong>${dekorasi}</strong> 
-                dengan busana <strong>${busana}</strong> yang anggun. Dengan pilihan warna <strong>${warna}</strong>, 
-                dan suasana <strong>${suasana}</strong>, pernikahanmu akan terasa penuh kedamaian dan keindahan. 
-                Kamu ingin berbagi momen istimewa dengan tamu di <strong>${lokasi}</strong>, 
-                diiringi dengan <strong>${entertainment}</strong> yang membawa nuansa menjadi lebih nyata. 
-                Hidangan <strong>${menu}</strong> akan memastikan setiap orang merasa nyaman dan puas. 
-                Hari pernikahanmu akan menjadi momen istimewa yang tidak terlupakan!
-            `;
-        resultText.innerHTML = resultTextContent;
+      function loadQuestion(question) {
+        const optionsHtml = question.options
+          .map(
+            (option, index) => `
+        <button 
+          class="overflow-hidden transform" 
+          onclick="selectAnswer('${question.category}', '${option}')">
+          <img src="${question.images[index]}" alt="${option}" class="w-full ">
+          <span class="block text-center font-medium py-2">${option}</span>
+        </button>
+      `
+          )
+          .join("");
+        document.getElementById("question-section").innerHTML = `
+        <h2 class="text-xl font-semibold">${question.category}:</h2>
+        <div class="grid grid-cols-2 gap-4 mt-4">${optionsHtml}</div>
+      `;
       }
 
-      // Memulai Game
-      showQuestion();
+      function showResult() {
+        const resultText = `Kamu adalah tipe pengantin yang menyukai dekorasi dengan gaya ${answers["Dekorasi"]} dengan busana ${answers["Busana"]}. Dengan pilihan warna ${answers["Warna Tema"]}, dan suasana ${answers["Suasana Acara"]}, pernikahanmu akan terasa penuh kedamaian dan keindahan. Kamu ingin berbagi momen istimewa dengan tamu di ${answers["Lokasi"]}, diiringi dengan ${answers["Entertainment"]} yang membawa nuansa menjadi lebih nyata. Hidangan tradisional yang disajikan dalam ${answers["Menu Makanan"]} akan memastikan setiap orang merasa nyaman dan puas.`;
+        document.getElementById("question-section").classList.add("hidden");
+        document.getElementById("result-section").classList.remove("hidden");
+        document.getElementById("result-text").textContent = resultText;
+      }
+
+      function restartGame() {
+        Object.keys(answers).forEach((key) => delete answers[key]);
+        document.getElementById("result-section").classList.add("hidden");
+        document.getElementById("question-section").classList.remove("hidden");
+        loadQuestion(questions[0]);
+      }
+
+      loadQuestion(questions[0]);
     </script>
   </body>
 </html>

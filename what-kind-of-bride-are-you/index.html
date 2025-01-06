@@ -3,32 +3,162 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Pertanyaan: Tipe Istri</title>
+    <title>Game Tipe Istri</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div
-      id="app"
-      class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md text-center"
-    >
-      <h1 class="text-2xl font-bold text-gray-800 mb-4">
-        Temukan Tipe Istrimu!
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div id="app" class="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6">
+      <h1 class="text-2xl font-bold text-yellow-600 text-center mb-6">
+        Game Tipe Istri
       </h1>
-      <div id="game">
-        <p id="question" class="text-lg font-medium text-gray-700 mb-6"></p>
-        <div id="answers" class="space-y-4"></div>
-      </div>
-      <button
-        id="next-btn"
-        class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 hidden"
-      >
-        Lanjut
-      </button>
-      <div id="result" class="hidden">
-        <h2 class="text-xl font-bold text-gray-800 mt-6">Hasil Kamu:</h2>
-        <p id="result-text" class="text-gray-600 mt-4"></p>
+      <div id="question-container" class="text-center">
+        <!-- Pertanyaan akan di-render di sini -->
       </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+      // Data Pertanyaan dan Jawaban
+      const questions = [
+        {
+          question: "Bagaimana kamu memulai pagi di rumah?",
+          options: [
+            { text: "Membuat sarapan untuk pasangan", value: "A" },
+            {
+              text: "Menikmati kopi sambil scrolling media sosial",
+              value: "B",
+            },
+          ],
+        },
+        {
+          question: "Apa yang kamu pilih untuk makan malam spesial?",
+          options: [
+            { text: "Masakan rumahan", value: "A" },
+            { text: "Makan di restoran favorit", value: "B" },
+          ],
+        },
+        {
+          question: "Ketika ada masalah di rumah, kamu lebih suka:",
+          options: [
+            { text: "Diskusi langsung dan mencari solusi bersama", value: "A" },
+            { text: "Membiarkan waktu yang menyelesaikannya", value: "B" },
+          ],
+        },
+        {
+          question: "Aktivitas akhir pekan favoritmu:",
+          options: [
+            {
+              text: "Menghabiskan waktu di rumah bersama keluarga",
+              value: "A",
+            },
+            { text: "Jalan-jalan atau traveling", value: "B" },
+          ],
+        },
+        {
+          question: "Ketika merencanakan resepsi pernikahan, kamu:",
+          options: [
+            { text: "Fokus pada detail dan memilih sendiri", value: "A" },
+            { text: "Percayakan sepenuhnya pada vendor", value: "B" },
+          ],
+        },
+      ];
+
+      const results = [
+        {
+          type: "The Homemaker Bride (Istri Penjaga Rumah)",
+          description:
+            "Kamu adalah tipe yang mencintai kehangatan rumah dan keluarga. Catering kami dengan menu tradisional akan sangat cocok untuk pernikahanmu.",
+          combinations: ["AAAAA", "AABBA", "AAAAB"],
+        },
+        {
+          type: "The Adventurous Bride (Istri Petualang)",
+          description:
+            "Kamu suka tantangan dan mencoba hal baru. Kami merekomendasikan menu fusion atau live cooking untuk menyesuaikan gaya unikmu.",
+          combinations: ["ABABA", "AAABA", "BAABB", "BAAAA"],
+        },
+        {
+          type: "The Easygoing Bride (Istri Santai)",
+          description:
+            "Kamu suka segalanya berjalan lancar tanpa banyak ribet. Paket catering kami yang all-in-one adalah pilihan sempurna untukmu.",
+          combinations: ["BBBBB", "ABBAB", "BABAB"],
+        },
+        {
+          type: "The Glamorous Bride (Istri Glamor)",
+          description:
+            "Kamu menyukai kemewahan dan elegansi. Menu premium dan dekorasi megah akan melengkapi momen spesialmu.",
+          combinations: ["ABBBB", "BBABB", "ABABB"],
+        },
+      ];
+
+      let currentQuestionIndex = 0;
+      let answers = [];
+
+      // Fungsi untuk memuat pertanyaan
+      function loadQuestion() {
+        const questionContainer = document.getElementById("question-container");
+        if (currentQuestionIndex < questions.length) {
+          const currentQuestion = questions[currentQuestionIndex];
+          questionContainer.innerHTML = `
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">${
+                      currentQuestion.question
+                    }</h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        ${currentQuestion.options
+                          .map(
+                            (option) => `
+                                    <button 
+                                        class="bg-yellow-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-600 transition" 
+                                        onclick="selectAnswer('${option.value}')"
+                                    >
+                                        ${option.text}
+                                    </button>
+                                `
+                          )
+                          .join("")}
+                    </div>
+                `;
+        } else {
+          displayResult();
+        }
+      }
+
+      // Fungsi untuk menangani jawaban
+      function selectAnswer(answer) {
+        answers.push(answer);
+        currentQuestionIndex++;
+        loadQuestion();
+      }
+
+      // Fungsi untuk menampilkan hasil
+      function displayResult() {
+        const questionContainer = document.getElementById("question-container");
+        const answerString = answers.join("");
+        const result = results.find((r) =>
+          r.combinations.includes(answerString)
+        ) || {
+          type: "Tipe Tidak Dikenali",
+          description: "Hasil tidak cocok dengan tipe yang tersedia.",
+        };
+
+        questionContainer.innerHTML = `
+                <h2 class="text-xl font-bold text-yellow-600 mb-4">${result.type}</h2>
+                <p class="text-gray-700 mb-6">${result.description}</p>
+                <button 
+                    class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+                    onclick="restartGame()"
+                >
+                    Mulai Lagi
+                </button>
+            `;
+      }
+
+      // Fungsi untuk mengulang permainan
+      function restartGame() {
+        currentQuestionIndex = 0;
+        answers = [];
+        loadQuestion();
+      }
+
+      // Memulai permainan
+      loadQuestion();
+    </script>
   </body>
 </html>
