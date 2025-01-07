@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>What Kind of Husband Are You?</title>
+    <title>Family Concept Quiz</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
@@ -16,7 +16,7 @@
         ><i class="fas fa-arrow-left text-5xl text-gray-800"></i
       ></a>
       <h1 class="text-5xl font-bold text-yellow-600 ml-5">
-        What Kind of Husband Are You?
+        Family Concept Quiz
       </h1>
     </div>
     <div class="max-w-5xl mx-auto p-4">
@@ -27,6 +27,7 @@
         ></div>
         <div id="result-section" class="hidden text-center mt-8">
           <h2 class="text-2xl font-bold">Hasil</h2>
+          <p id="result-title" class="mt-4 text-4xl font-bold"></p>
           <p id="result-text" class="mt-4 text-2xl"></p>
           <button
             class="mt-6 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:shadow-lg"
@@ -42,44 +43,49 @@
       const answers = [];
       const questions = [
         {
-          category: "Saat istri memasak, apa yang kamu lakukan?",
+          category:
+            "Bagaimana kalian menghabiskan akhir pekan bersama keluarga?",
           options: [
-            "Membantu memotong bahan atau membersihkan dapur",
-            "Duduk santai menonton TV sambil menunggu makanan siap",
+            "Berkumpul di rumah sambil memasak bersama",
+            "Jalan-jalan atau traveling.",
+          ],
+          images: ["/src/image/home-cook.webp", "/src/image/travel.webp"],
+        },
+        {
+          category:
+            "Apa aktivitas favorit kalian untuk mempererat hubungan keluarga?",
+          options: [
+            "Bermain board game bersama keluarga",
+            "Berolahraga bersama keluarga",
+          ],
+          images: ["/src/image/board-game.webp", "/src/image/exercise.webp"],
+        },
+        {
+          category: "Apa yang kalian harapkan dari ruang makan di rumah?",
+          options: [
+            "Tempat berkumpul hangat dengan makanan rumahan",
+            "Desain modern untuk menjamu tamu.",
           ],
           images: [
-            "/src/image/helping-cook.webp",
-            "/src/image/watching-tv.webp",
+            "/src/image/warm-dining.webp",
+            "/src/image/modern-dining.webp",
           ],
         },
         {
-          category: "Liburan keluarga yang ideal menurutmu?",
-          options: ["Piknik sederhana di taman", "Menginap di resort mewah"],
-          images: ["/src/image/picnic.webp", "/src/image/resort.webp"],
-        },
-        {
-          category: "Ketika istri sedang sibuk, kamu akan:",
+          category: "Apa gaya pengasuhan anak yang kalian inginkan?",
           options: [
-            "Membantu menyelesaikan tugas-tugasnya",
-            "Memberikan ruang agar dia bisa menyelesaikannya sendiri",
+            "Tradisional dengan nilai-nilai keluarga kuat",
+            "Fleksibel dan membiarkan anak bereksplorasi.",
           ],
-          images: ["/src/image/helping.webp", "/src/image/giving-space.webp"],
+          images: ["/src/image/traditional.webp", "/src/image/flexible.webp"],
         },
         {
-          category: "Hadiah ulang tahun untuk istri yang menurutmu sempurna:",
+          category: "Bagaimana kalian merayakan momen spesial?",
           options: [
-            "Masakan spesial buatan sendiri",
-            "Perhiasan atau hadiah mewah lainnya",
+            "Makan malam keluarga sederhana",
+            "Mengadakan pesta kecil bersama teman dan keluarga.",
           ],
-          images: ["/src/image/homemade-meal.webp", "/src/image/jewelry.webp"],
-        },
-        {
-          category: "Saat ada masalah di rumah tangga, kamu lebih suka:",
-          options: [
-            "Bicara langsung dan cari solusi bersama",
-            "Membiarkan masalah reda dengan sendirinya",
-          ],
-          images: ["/src/image/discussion.webp", "/src/image/time-heals.webp"],
+          images: ["/src/image/simple-dinner.webp", "/src/image/party.webp"],
         },
       ];
 
@@ -114,29 +120,30 @@
 
       function showResult() {
         const resultPatterns = {
-          "The Supportive Husband": [
+          "The Warm Family": [
             [0, 0, 0, 0, 0],
-            [0, 0, 1, 0, 1],
-            [0, 0, 1, 1, 1],
-          ],
-          "The Fun Husband": [
-            [1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 0],
-            [1, 1, 0, 1, 1],
-          ],
-          "The Luxury Lover": [
-            [1, 1, 1, 1, 1],
-            [1, 1, 1, 0, 0],
-            [0, 1, 1, 1, 1],
-          ],
-          "The Calm Husband": [
+            [0, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0],
+            [1, 0, 0, 0, 0],
             [1, 1, 0, 0, 0],
-            [0, 1, 0, 1, 0],
-            [0, 1, 1, 0, 0],
+          ],
+          "The Adventurous Family": [
+            [0, 0, 1, 1, 1],
+            [1, 1, 1, 0, 1],
+            [1, 0, 1, 1, 1],
+          ],
+          "The Modern Family": [
+            [0, 1, 1, 1, 0],
+            [0, 1, 0, 1, 1],
+            [1, 1, 1, 1, 0],
+          ],
+          "The Festive Family": [
+            [0, 1, 0, 0, 1],
+            [1, 0, 0, 0, 1],
           ],
         };
 
-        let result = "The Calm Husband";
+        let result = "The Warm Family";
         for (const [key, patterns] of Object.entries(resultPatterns)) {
           if (
             patterns.some((pattern) =>
@@ -149,21 +156,21 @@
         }
 
         const descriptions = {
-          "The Supportive Husband":
-            "Kamu adalah tipe suami yang selalu mendukung istri dalam segala hal. Catering kami dengan layanan fleksibel cocok untuk memenuhi kebutuhan resepsi kalian.",
-          "The Fun Husband":
-            "Kamu adalah tipe yang suka menjaga suasana ceria dan penuh kejutan. Menu kami yang beragam dan unik akan cocok dengan gaya pernikahanmu.",
-          "The Luxury Lover":
-            "Kamu menyukai hal-hal premium dan mewah. Pilihan menu eksklusif dan dekorasi elegan adalah pilihan terbaik untuk pernikahanmu.",
-          "The Calm Husband":
-            "Kamu adalah tipe yang tenang dan sederhana. Menu tradisional dengan sentuhan modern akan mencerminkan gaya kalian.",
+          "The Warm Family":
+            "Keluarga kalian akan berfokus pada kebersamaan dan tradisi. Catering dengan menu rumahan khas akan sangat cocok untuk pernikahan dan momen-momen keluarga kalian.",
+          "The Adventurous Family":
+            "Keluarga kalian menyukai kegiatan seru dan pengalaman baru. Menu dengan tema unik atau makanan internasional adalah pilihan yang tepat.",
+          "The Modern Family":
+            "Keluarga kalian menyukai gaya hidup praktis dan elegan. Pilihan catering dengan konsep modern dan minimalis akan mencerminkan gaya kalian.",
+          "The Festive Family":
+            "Keluarga kalian suka merayakan setiap momen spesial. Pilihan menu pesta lengkap dengan dekorasi menarik adalah pasangan sempurna untuk gaya hidup kalian.",
         };
 
         document.getElementById("question-section").classList.add("hidden");
         document.getElementById("result-section").classList.remove("hidden");
-        document.getElementById(
-          "result-text"
-        ).textContent = `${result}: ${descriptions[result]}`;
+        document.getElementById("result-title").textContent = result;
+        document.getElementById("result-text").textContent =
+          descriptions[result];
       }
 
       function restartGame() {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>What Kind of Husband Are You?</title>
+    <title>Wedding Concept Quiz</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
@@ -16,7 +16,7 @@
         ><i class="fas fa-arrow-left text-5xl text-gray-800"></i
       ></a>
       <h1 class="text-5xl font-bold text-yellow-600 ml-5">
-        What Kind of Husband Are You?
+        Wedding Concept Quiz
       </h1>
     </div>
     <div class="max-w-5xl mx-auto p-4">
@@ -27,6 +27,7 @@
         ></div>
         <div id="result-section" class="hidden text-center mt-8">
           <h2 class="text-2xl font-bold">Hasil</h2>
+          <p id="result-title" class="mt-4 text-4xl font-bold"></p>
           <p id="result-text" class="mt-4 text-2xl"></p>
           <button
             class="mt-6 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:shadow-lg"
@@ -42,44 +43,44 @@
       const answers = [];
       const questions = [
         {
-          category: "Saat istri memasak, apa yang kamu lakukan?",
+          category: "Tema warna apa yang paling menarik bagi kalian?",
           options: [
-            "Membantu memotong bahan atau membersihkan dapur",
-            "Duduk santai menonton TV sambil menunggu makanan siap",
+            "Warna pastel lembut seperti biru muda, peach, atau lavender",
+            "Warna bold seperti merah marun, emas, atau hitam",
           ],
-          images: [
-            "/src/image/helping-cook.webp",
-            "/src/image/watching-tv.webp",
-          ],
+          images: ["/src/image/pastel.webp", "/src/image/bold.webp"],
         },
         {
-          category: "Liburan keluarga yang ideal menurutmu?",
-          options: ["Piknik sederhana di taman", "Menginap di resort mewah"],
-          images: ["/src/image/picnic.webp", "/src/image/resort.webp"],
+          category: "Jenis tempat pernikahan mana yang kalian sukai?",
+          options: [
+            "Taman outdoor atau pantai",
+            "Ruang serbaguna elegan atau ballroom",
+          ],
+          images: ["/src/image/taman.webp", "/src/image/ballroom.webp"],
         },
         {
-          category: "Ketika istri sedang sibuk, kamu akan:",
+          category: "Gaya dekorasi yang kalian inginkan?",
           options: [
-            "Membantu menyelesaikan tugas-tugasnya",
-            "Memberikan ruang agar dia bisa menyelesaikannya sendiri",
+            "Natural dan rustic dengan banyak bunga dan tanaman",
+            "Glamour dan modern dengan pencahayaan dramatis dan dekorasi mewah",
           ],
-          images: ["/src/image/helping.webp", "/src/image/giving-space.webp"],
+          images: ["/src/image/rustic.webp", "/src/image/glamour.webp"],
         },
         {
-          category: "Hadiah ulang tahun untuk istri yang menurutmu sempurna:",
+          category: "Bagaimana kalian membayangkan makanan pernikahan?",
           options: [
-            "Masakan spesial buatan sendiri",
-            "Perhiasan atau hadiah mewah lainnya",
+            "Buffet dengan berbagai pilihan makanan tradisional dan internasional",
+            "Set menu formal dengan hidangan elegan dan plated service",
           ],
-          images: ["/src/image/homemade-meal.webp", "/src/image/jewelry.webp"],
+          images: ["/src/image/buffet.webp", "/src/image/set-menu.webp"],
         },
         {
-          category: "Saat ada masalah di rumah tangga, kamu lebih suka:",
+          category: "Musik yang kalian pilih untuk acara pernikahan?",
           options: [
-            "Bicara langsung dan cari solusi bersama",
-            "Membiarkan masalah reda dengan sendirinya",
+            "Musik akustik atau live band yang santai",
+            "DJ dengan lagu-lagu dance dan hits modern",
           ],
-          images: ["/src/image/discussion.webp", "/src/image/time-heals.webp"],
+          images: ["/src/image/akustik.webp", "/src/image/dj.webp"],
         },
       ];
 
@@ -114,29 +115,34 @@
 
       function showResult() {
         const resultPatterns = {
-          "The Supportive Husband": [
+          "The Elegant Garden Wedding": [
             [0, 0, 0, 0, 0],
-            [0, 0, 1, 0, 1],
-            [0, 0, 1, 1, 1],
+            [0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 1],
+            [0, 1, 0, 0, 0],
+            [0, 0, 0, 1, 0],
           ],
-          "The Fun Husband": [
-            [1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 0],
-            [1, 1, 0, 1, 1],
-          ],
-          "The Luxury Lover": [
+          "The Glamorous Ballroom Wedding": [
             [1, 1, 1, 1, 1],
-            [1, 1, 1, 0, 0],
-            [0, 1, 1, 1, 1],
+            [1, 1, 0, 1, 1],
+            [1, 1, 0, 0, 1],
+            [1, 1, 1, 0, 1],
           ],
-          "The Calm Husband": [
-            [1, 1, 0, 0, 0],
+          "The Modern Chic Wedding": [
+            [0, 1, 1, 0, 1],
             [0, 1, 0, 1, 0],
-            [0, 1, 1, 0, 0],
+            [1, 1, 0, 0, 0],
+            [0, 0, 1, 0, 1],
+          ],
+          "The Bohemian Dream Wedding": [
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1],
+            [0, 0, 0, 1, 0],
+            [0, 0, 1, 0, 0],
           ],
         };
 
-        let result = "The Calm Husband";
+        let result = "The Modern Chic Wedding";
         for (const [key, patterns] of Object.entries(resultPatterns)) {
           if (
             patterns.some((pattern) =>
@@ -149,21 +155,21 @@
         }
 
         const descriptions = {
-          "The Supportive Husband":
-            "Kamu adalah tipe suami yang selalu mendukung istri dalam segala hal. Catering kami dengan layanan fleksibel cocok untuk memenuhi kebutuhan resepsi kalian.",
-          "The Fun Husband":
-            "Kamu adalah tipe yang suka menjaga suasana ceria dan penuh kejutan. Menu kami yang beragam dan unik akan cocok dengan gaya pernikahanmu.",
-          "The Luxury Lover":
-            "Kamu menyukai hal-hal premium dan mewah. Pilihan menu eksklusif dan dekorasi elegan adalah pilihan terbaik untuk pernikahanmu.",
-          "The Calm Husband":
-            "Kamu adalah tipe yang tenang dan sederhana. Menu tradisional dengan sentuhan modern akan mencerminkan gaya kalian.",
+          "The Elegant Garden Wedding":
+            "Kalian menyukai suasana yang elegan namun tetap santai. Konsep pernikahan kalian cocok dengan taman outdoor atau pantai, dikelilingi oleh dekorasi bunga alami dan suasana yang hangat. Catering dengan berbagai pilihan menu akan melengkapi perayaan kalian.",
+          "The Glamorous Ballroom Wedding":
+            "Pernikahan kalian akan memiliki kesan mewah dan megah. Ballroom besar dengan dekorasi yang dramatis, pencahayaan yang indah, dan menu yang elegan adalah pilihan yang sempurna untuk kalian.",
+          "The Modern Chic Wedding":
+            "Kalian lebih suka pernikahan dengan tema modern dan kontemporer. Taman atau ruangan dengan desain minimalis, musik live yang santai, serta makanan yang elegan akan menciptakan atmosfer yang tak terlupakan.",
+          "The Bohemian Dream Wedding":
+            "Pernikahan dengan sentuhan bohemian yang unik dan bebas. Dekorasi rustic dengan banyak bunga, suasana santai dengan musik akustik, dan pilihan yang bervariasi akan membuat pernikahan kalian berkesan.",
         };
 
         document.getElementById("question-section").classList.add("hidden");
         document.getElementById("result-section").classList.remove("hidden");
-        document.getElementById(
-          "result-text"
-        ).textContent = `${result}: ${descriptions[result]}`;
+        document.getElementById("result-title").textContent = result;
+        document.getElementById("result-text").textContent =
+          descriptions[result];
       }
 
       function restartGame() {
