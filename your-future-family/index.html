@@ -90,7 +90,7 @@
       ];
 
       function selectAnswer(index) {
-        answers.push(index);
+        answers.push(index === 0 ? "A" : "B");
         if (answers.length < questions.length) {
           loadQuestion(answers.length);
         } else {
@@ -103,53 +103,32 @@
         const optionsHtml = question.options
           .map(
             (option, i) => `
-        <button 
-          class="overflow-hidden transform" 
-          onclick="selectAnswer(${i})">
-          <img src="${question.images[i]}" alt="${option}" class="w-full ">
-          <span class="block text-center font-medium py-2">${option}</span>
-        </button>
-      `
+            <button 
+              class="overflow-hidden transform" 
+              onclick="selectAnswer(${i})">
+              <img src="${question.images[i]}" alt="${option}" class="w-full " />
+              <span class="block text-center font-medium py-2">${option}</span>
+            </button>
+          `
           )
           .join("");
         document.getElementById("question-section").innerHTML = `
-        <h2 class="text-4xl font-semibold">${question.category}</h2>
-        <div class="grid grid-cols-2 gap-20 mt-10">${optionsHtml}</div>
-      `;
+            <h2 class="text-4xl font-semibold">${question.category}</h2>
+            <div class="grid grid-cols-2 gap-20 mt-10">${optionsHtml}</div>
+          `;
       }
 
       function showResult() {
         const resultPatterns = {
-          "The Warm Family": [
-            [0, 0, 0, 0, 0],
-            [0, 1, 0, 0, 0],
-            [0, 0, 1, 0, 0],
-            [1, 0, 0, 0, 0],
-            [1, 1, 0, 0, 0],
-          ],
-          "The Adventurous Family": [
-            [0, 0, 1, 1, 1],
-            [1, 1, 1, 0, 1],
-            [1, 0, 1, 1, 1],
-          ],
-          "The Modern Family": [
-            [0, 1, 1, 1, 0],
-            [0, 1, 0, 1, 1],
-            [1, 1, 1, 1, 0],
-          ],
-          "The Festive Family": [
-            [0, 1, 0, 0, 1],
-            [1, 0, 0, 0, 1],
-          ],
+          "The Warm Family": ["AAAAA", "ABAAA", "AAABA", "BAAAA", "BBAAA"],
+          "The Adventurous Family": ["AAABB", "BBABB", "BAABB"],
+          "The Modern Family": ["AABBA", "ABBBA", "BABBB", "BBBBA"],
+          "The Festive Family": ["AABAB", "BAAAB"],
         };
 
         let result = "The Warm Family";
         for (const [key, patterns] of Object.entries(resultPatterns)) {
-          if (
-            patterns.some((pattern) =>
-              pattern.every((val, i) => val === answers[i])
-            )
-          ) {
+          if (patterns.includes(answers.join(""))) {
             result = key;
             break;
           }
